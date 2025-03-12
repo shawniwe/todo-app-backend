@@ -22,7 +22,6 @@ namespace ToDoApp.Presentation
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();
