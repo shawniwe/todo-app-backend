@@ -1,18 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ToDoApp.Application.Abstract;
+using ToDoApp.Application.DTOs;
+using ToDoApp.Application.Requests;
 
 namespace ToDoApp.Presentation.Controllers
 {
-    // TODO: вынести АРГУМЕНТЫ end-point'ов в ОТДЕЛЬНЫЕ КЛАССЫ
+    // migrations - механизм, управляющий "версиями" базы данных
 
-    [Route("api/[controller]")] // <-- общепринятый паттерн начинать доступ
-                                // к API со /api/
+    // каждое изменение структуры БД = миграция
+    // миграция имеет номер версии и два скрипта - up и down - "накатить" и "откатить"
+    
+    [Route("api/[controller]")]
     [ApiController]
     public class DealController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult Create()
+        private readonly IDealService _dealService;
+
+        public DealController(IDealService dealService) // инъекция зависимости
         {
-            throw new NotImplementedException();
+            _dealService = dealService;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<DealDto>> Create([FromBody] DealCreateRequest request)
+        {
+            DealDto result = await _dealService.Create(request);
+            return Created("/", result); // <-- указать корректную ссылку для получения объекта
         }
 
         [Route("all")]
@@ -28,25 +41,27 @@ namespace ToDoApp.Presentation.Controllers
             throw new NotImplementedException();
         }
 
-        // TODO: изменить route в случае возникновения конфликтов
         [HttpDelete]
         public IActionResult Delete()
         {
             throw new NotImplementedException();
         }
 
+        [Route("status")]
         [HttpPatch]
         public IActionResult UpdateStatus()
         {
             throw new NotImplementedException();
         }
 
+        [Route("description")]
         [HttpPatch]
         public IActionResult UpdateDescription()
         {
             throw new NotImplementedException();
         }
 
+        [Route("title")]
         [HttpPatch]
         public IActionResult UpdateTitle()
         {

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToDoApp.Domain\ToDoApp.Domain.csproj" />
+    <PackageReference Include="Simple.Migrations" Version="0.9.21" />
   </ItemGroup>
 
 </Project>

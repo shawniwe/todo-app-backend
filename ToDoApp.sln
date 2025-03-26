@@ -7,15 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A23DD757-450
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{39E52DE8-EC30-4885-AE2A-FEA7D53ADBDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Presentation", "src\ToDoApp.Presentation\ToDoApp.Presentation.csproj", "{11A95FA7-0EA1-473D-B19C-DCBC589E0A0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Presentation", "src\ToDoApp.Presentation\ToDoApp.Presentation.csproj", "{11A95FA7-0EA1-473D-B19C-DCBC589E0A0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Application", "src\ToDoApp.Application\ToDoApp.Application.csproj", "{0895CB2D-C87C-4FEA-9EBC-29B0B42DE775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Application", "src\ToDoApp.Application\ToDoApp.Application.csproj", "{0895CB2D-C87C-4FEA-9EBC-29B0B42DE775}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Infrastructure", "src\ToDoApp.Infrastructure\ToDoApp.Infrastructure.csproj", "{F4F47A3E-2F99-4DEA-8873-A41AE9461738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Infrastructure", "src\ToDoApp.Infrastructure\ToDoApp.Infrastructure.csproj", "{F4F47A3E-2F99-4DEA-8873-A41AE9461738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Persistance", "src\ToDoApp.Persistance\ToDoApp.Persistance.csproj", "{B7EAD364-F768-4C76-B85A-B39CAD3E15AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Persistance", "src\ToDoApp.Persistance\ToDoApp.Persistance.csproj", "{B7EAD364-F768-4C76-B85A-B39CAD3E15AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Domain", "src\ToDoApp.Domain\ToDoApp.Domain.csproj", "{3C39806A-8816-4FD0-BAA5-BBE3457F18B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Domain", "src\ToDoApp.Domain\ToDoApp.Domain.csproj", "{3C39806A-8816-4FD0-BAA5-BBE3457F18B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApp.Migrations", "ToDoApp.Migrations\ToDoApp.Migrations.csproj", "{86F6150F-CC69-46B5-A015-BBC9F8E64B7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{3C39806A-8816-4FD0-BAA5-BBE3457F18B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C39806A-8816-4FD0-BAA5-BBE3457F18B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C39806A-8816-4FD0-BAA5-BBE3457F18B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F6150F-CC69-46B5-A015-BBC9F8E64B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F6150F-CC69-46B5-A015-BBC9F8E64B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F6150F-CC69-46B5-A015-BBC9F8E64B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F6150F-CC69-46B5-A015-BBC9F8E64B7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{F4F47A3E-2F99-4DEA-8873-A41AE9461738} = {A23DD757-450D-4CBD-B316-64EE5349F386}
 		{B7EAD364-F768-4C76-B85A-B39CAD3E15AC} = {A23DD757-450D-4CBD-B316-64EE5349F386}
 		{3C39806A-8816-4FD0-BAA5-BBE3457F18B4} = {A23DD757-450D-4CBD-B316-64EE5349F386}
+		{86F6150F-CC69-46B5-A015-BBC9F8E64B7F} = {A23DD757-450D-4CBD-B316-64EE5349F386}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE7E4746-1E81-4FF4-9A5E-2B701727F516}
