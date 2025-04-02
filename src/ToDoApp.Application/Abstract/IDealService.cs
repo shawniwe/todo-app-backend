@@ -8,5 +8,7 @@ namespace ToDoApp.Application.Abstract
     public interface IDealService // класс, который обеспечивает работу с той или иной бизнес-сущностью
     {
         Task<DealDto> Create(DealCreateRequest request);
+        Task<List<DealDto>> GetDeals();
+        Task<DealDto?> GetDeal(long id);
     }
 }

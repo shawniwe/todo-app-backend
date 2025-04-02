@@ -1,7 +1,5 @@
-
 using Microsoft.Data.SqlClient;
 using SimpleMigrations;
-using SimpleMigrations.Console;
 using SimpleMigrations.DatabaseProvider;
 using ToDoApp.Application.Abstract;
 using ToDoApp.Application.Services;
@@ -12,6 +10,32 @@ using ToDoApp.Persistance.Repositories;
 
 namespace ToDoApp.Presentation
 {
+    /* 
+     * Р§СѓРІСЃС‚РІРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ - СЌС‚Рѕ Р›Р®Р‘РђРЇ РёРЅС„РѕСЂРјР°С†РёСЏ, РєРѕС‚РѕСЂР°СЏ СЏРІР»СЏРµС‚СЃСЏ СЃРµРєСЂРµС‚РѕРј (РїР°СЂРѕР»Рё, СЃС‚СЂРѕРєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р‘Р”,
+     * Р°РґСЂРµСЃР° РІРЅСѓС‚СЂРµРЅРЅРёС… API Рё С‚. Рґ).
+     * 
+     * РЎРїРѕСЃРѕР±С‹ С…СЂР°РЅРµРЅРёСЏ С‡СѓРІСЃС‚РІ. РґР°РЅРЅС‹С…:
+     * 1. env
+     * 2. secret storage
+     * 
+     * env - environment - "РѕРєСЂСѓР¶РµРЅРёРµ". РќРµРєРѕРµ "С…СЂР°РЅРёР»РёС‰Рµ" Р·РЅР°С‡РµРЅРёР№ РІРЅСѓС‚СЂРё РѕРїРµСЂР°С†РёРѕРЅРЅРѕР№ СЃРёСЃС‚РµРјС‹
+     * 
+     * Р¤РѕСЂРјР°С‚ env:
+     * РќРђР—Р’РђРќРР•_РџР•Р Р•РњР•РќРќРћР™="Р°Р»РґРІРїРѕР°Р»РѕР»РїРѕР»Р°РІ"
+     * 
+     * РР·РІР»РµС‡РµРЅРёРµ env:
+     * Environment.GetEnvironmentVariable("РќРђР—Р’РђРќРР• РџР•Р Р•РњР•РќРќРћР™");
+     * 
+     * Docker (Kuber) ->
+     * ENV С„Р°Р№Р»: .env
+     * РџСЂРё Р·Р°РїСѓСЃРєРµ РєРѕРЅС‚РµР№РЅРµСЂР° С„Р°Р№Р» РїРµСЂРµРґР°РµС‚СЃСЏ РІРЅСѓС‚СЂСЊ Рё РјРµС…Р°РЅРёР·РјС‹ docker (Рё kuber) СѓСЃС‚Р°РЅР°РІР»РёРІР°СЋС‚ РїРµСЂРµРјРµРЅРЅС‹Рµ РёР· С„Р°Р№Р»Р°
+     * РІ РєР°С‡РµСЃС‚РІРµ РїРµСЂРµРјРµРЅРЅС‹С… РћРЎ
+     * 
+     * .env С„Р°Р№Р» РќР• РїСѓС€РёС‚СЃСЏ РІ СЂРµРїРѕР·РёС‚РѕСЂРёР№!!!
+     * 
+     * TFS Azure (CI/CD) -> Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё Р·Р°РїРѕР»РЅСЏРµС‚ .env РїРµСЂРµРјРµРЅРЅС‹Рµ РёР· СѓРєР°Р·Р°РЅРЅС‹С… РЅР° СЃРµСЂРІРµСЂРµ
+     */
+
     public class Program
     {
         public static void Main(string[] args)
@@ -27,7 +51,7 @@ namespace ToDoApp.Presentation
             builder.Services.AddScoped<IDealService, DealService>();
 
             ConnectionString connectionString = new ConnectionString();
-            connectionString.Value = "Server=(localdb)\\mssqllocaldb;Database=todoapp_db;Trusted_Connection=True;"; // плохая практика, т.к. это чувствительные данные, нужно хранить в .env
+            connectionString.Value = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? throw new ArgumentException("РЎС‚СЂРѕРєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ РЅРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅР° РІ .env С„Р°Р№Р»Рµ");
 
             builder.Services.AddSingleton(connectionString);
 
@@ -43,11 +67,8 @@ namespace ToDoApp.Presentation
 
             app.MapControllers();
 
-            // 1. подключиться к бд
-            // 2. применить не примененные миграции
-
             var migrationsAssembly = typeof(_20250326_2036_CreateDealTable).Assembly;
-            using (var connection = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=todoapp_db;Trusted_Connection=True;")) // mssqlconnection
+            using (var connection = new SqlConnection(connectionString.Value))
             {
                 var databaseProvider = new MssqlDatabaseProvider(connection);
                 var migrator = new SimpleMigrator(migrationsAssembly, databaseProvider);
@@ -60,10 +81,3 @@ namespace ToDoApp.Presentation
         }
     }
 }
-
-// ORM - Object Relational Mapping -> значения базы данных хранятся в объектах (классах)
-
-// Entity Framework (ORM) - самый главный недостаток - СКОРОСТЬ, невозможность использовать short object'ы (или это сделано криво)
-
-// Dapper (micro ORM) - маппинг данных из БД на объекты классов
-// чистый SQL

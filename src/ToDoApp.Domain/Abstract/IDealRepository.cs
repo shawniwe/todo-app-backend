@@ -10,5 +10,7 @@ namespace ToDoApp.Domain.Abstract
     public interface IDealRepository
     {
         Task<Deal> Create(Deal deal);
+        Task<List<Deal>> GetAll();
+        Task<Deal?> GetById(long id);
     }
 }

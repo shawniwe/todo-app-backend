@@ -42,6 +42,50 @@ namespace ToDoApp.Application.Services
             return model;
         }
 
+        public async Task<DealDto?> GetDeal(long id)
+        {
+            Deal? entity = await _dealRepository.GetById(id);
+
+            DealDto? dto = null;
+
+            if (entity != null)
+            {
+                dto = new DealDto
+                {
+                    Id = entity.Id,
+                    Title = entity.Title,
+                    Deadline = entity.Deadline,
+                    Description = entity.Description,
+                    Status = GetStringStatus(entity.Status)
+                };
+            }
+
+            return dto;
+        }
+
+        public async Task<List<DealDto>> GetDeals()
+        {
+            var entities = await _dealRepository.GetAll();
+
+            List<DealDto> dtos = new List<DealDto>();
+
+            foreach (var entity in entities)
+            {
+                DealDto dto = new DealDto()
+                {
+                    Id = entity.Id,
+                    Title = entity.Title,
+                    Deadline = entity.Deadline,
+                    Description = entity.Description,
+                    Status = GetStringStatus(entity.Status)
+                };
+
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+
         public string GetStringStatus(DealStatus status)
         {
             switch (status)

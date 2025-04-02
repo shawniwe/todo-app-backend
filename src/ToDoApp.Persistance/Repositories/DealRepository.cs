@@ -22,12 +22,36 @@ namespace ToDoApp.Persistance.Repositories
 
             using (var connection = new SqlConnection(_connectionString.Value))
             {
-                Deal? entity = await connection.QueryFirstOrDefaultAsync<Deal>(sql, deal);
-                if (entity == null)
-                    throw new InvalidOperationException("Не удалось вставить сущность в базу данных");
+                Deal entity = await connection.QueryFirstAsync<Deal>(sql, deal);
+                
+                return entity;
+            }
+        }
 
+        public async Task<List<Deal>> GetAll()
+        {
+            string sql = @"SELECT [id], [title], [description], [deadline], [status] FROM [deal]";
+
+            using (var connection = new SqlConnection(_connectionString.Value))
+            {
+                IEnumerable<Deal> entities = await connection.QueryAsync<Deal>(sql);
+
+                return entities.ToList();
+            }
+        }
+
+        public async Task<Deal?> GetById(long id)
+        {
+            string sql = @"SELECT [id], [title], [description], [deadline], [status] FROM [deal] WHERE id = @id";
+
+            using (var connection = new SqlConnection(_connectionString.Value))
+            {
+                Deal? entity = await connection.QueryFirstOrDefaultAsync<Deal>(sql, new { id });
                 return entity;
             }
         }
     }
 }
+
+// Kerstel server -> 500 (Internal Server Error)
+//

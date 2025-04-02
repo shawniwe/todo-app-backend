@@ -4,19 +4,14 @@ using ToDoApp.Application.DTOs;
 using ToDoApp.Application.Requests;
 
 namespace ToDoApp.Presentation.Controllers
-{
-    // migrations - механизм, управляющий "версиями" базы данных
-
-    // каждое изменение структуры БД = миграция
-    // миграция имеет номер версии и два скрипта - up и down - "накатить" и "откатить"
-    
+{    
     [Route("api/[controller]")]
     [ApiController]
     public class DealController : ControllerBase
     {
         private readonly IDealService _dealService;
 
-        public DealController(IDealService dealService) // инъекция зависимости
+        public DealController(IDealService dealService)
         {
             _dealService = dealService;
         }
@@ -30,17 +25,28 @@ namespace ToDoApp.Presentation.Controllers
 
         [Route("all")]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<ActionResult<List<DealDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            List<DealDto> deals = await _dealService.GetDeals();
+
+            if (!deals.Any())
+                return NoContent();
+
+            return Ok(deals);
         }
 
         [HttpGet]
-        public IActionResult GetById()
+        public async Task<ActionResult<DealDto>> GetById(long id)
         {
-            throw new NotImplementedException();
+            DealDto? deal = await _dealService.GetDeal(id);
+
+            if (deal == null)
+                return NoContent();
+
+            return Ok(deal);
         }
 
+        // TODO: доделать end-point'ы + КАРТИНКИ!
         [HttpDelete]
         public IActionResult Delete()
         {
